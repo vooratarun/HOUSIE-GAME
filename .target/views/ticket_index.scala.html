@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>	
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.css")">
+	<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap-responsive.css")">		
+    <style>
+    .main_div
+    {
+    	margin-top:0%;
+    	width: device-width;
+    	height: device-height;    	
+    	background: #bbada0;
+    	text-align:center;
+    }
+    .header
+    {    	
+    	position:relative;
+    	width: device-width;    
+    }
+    .board
+    {    
+    	position:relative;
+    	margin-top:3.5%;
+    	width: device-width%;
+    	height: 650px;    	
+    }   
+	.footer
+    {		
+    	width: device-width;
+    	height: 30px;    	
+    }
+   .game-container 
+   {		
+		position: relative;
+		padding-left: 50px;
+		padding-top: 20px;		
+		cursor: default;		
+		background: #bbada0;
+		border-radius: 6px;		
+		width:100%;
+		height: 635px;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box; 
+	}
+	.grid-container 
+	{
+		position: absolute;
+		z-index: 1; 
+	}
+	.grid-row 
+	{
+		margin-bottom: 5px; 
+	}
+	.grid-row:last-child 
+	{
+		margin-bottom: 0; 
+	}
+	.grid-row:after 
+	{
+		content: "";
+		display: block;
+		clear: both; 
+	}
+	.grid-cell 
+	{
+		position:relative;
+		width: 70px;
+		height: 65px;
+		margin-right: 5px;
+		float: left;
+		border-radius: 3px;		
+		background: #eee4da;
+		text-align: center;
+		font-weight: bold;
+		z-index: 10;
+		font-size: 25px; 
+	}
+	.grid-cell-num
+	{
+		position:relative;
+		width: 70px;
+		height: 65px;
+		margin-right: 5px;
+		float: left;
+		border-radius: 3px;		
+		background: #801FA4;
+		text-align: center;
+		font-weight: bold;
+		z-index: 10;
+		font-size: 30px; 
+	}
+	.grid-cell:last-child 
+	{
+		margin-right: 0; 
+	}	
+	.grid-cell-num:last-child 
+	{
+		margin-right: 0; 
+	}	
+	</style>
+	<script>
+		$(document).ready(function () {
+              $("#rules").show();
+        });
+	</script>
+</head>
+<body style="background-color:#bbada0;">          	    		
+<div class="main_div">
+	<div class="header">
+		<div class="navbar navbar-inverse">
+	    	<div class="navbar-inner">
+		        <div class="container">
+				  <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				  </button>
+				  <a class="brand" href="#">Tambola</a>
+				  <div class="nav-collapse collapse">
+					<ul class="nav">
+					  <li class="">						  
+						<button title="start" class="btn btn-primary" onClick="generatenum();">START</button>
+					  </li>					 
+					  <li class="">		
+					  <a href="#"></a>				
+					  </li>	
+					  <li class="">						  
+						<button title="stop" class="btn btn-warning" onClick="stopnum();">STOP</button>
+					  </li>					 
+					  <li class="">		
+					  <a href="#"></a>				
+					  </li>		
+					  <li class="">
+						<button title="reset" class="btn btn-danger" onClick="clearn();">RESET</a>
+					  </li>				
+					  <li class="">		
+					  <a href="#"></a>				
+					  </li>					  
+					  <li>
+					  <button title="rules" href="#rules" role="button" id="rule" class="btn btn-info" data-toggle="modal">Rules</button>
+					  </li>
+					  <li class="">		
+					  <a href="#"></a>				
+					  </li>					  
+<!--					  <li class="">
+						<button class="btn btn-danger" onClick="clearn();">Audio On</a>
+					  </li>								  -->
+					</ul>
+				  </div>
+				</div>
+		    </div>
+	    </div>
+	</div>	
+	<div id="rules" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 id="myModalLabel" class="text-center">Rules For Tambola</font></h3>
+			</div>
+			<div class="modal-body">
+				<p class="well" style="text-align:left;">
+					
+					   <b>Early Five :</b> The ticket with first five number dabbed.<br><br>
+					   <b>Top Line:</b> The ticket with all the numbers of the top row dabbed fastest.<br><br>
+					   <b>Middle Line:</b> The ticket with all the numbers of the middle row dabbed fastest.<br><br>
+					   <b>Bottom Line:</b> The ticket with the numbers of the bottom row dabbed fasted.<br><br>
+					   <b>Full House:</b> The ticket with all the 15 numbers marked first.<br>
+				</p>     	 	
+			</div>
+			
+			<div class="modal-footer">
+				<p class="text-center"><b>Admin</b></p>
+       		</div>
+       	</div>
+	<div class="board">
+	    <div class="container-fluid">
+		    <div class="row-fluid">
+		    	<div class="span8">
+					 <div class="game-container">
+						 <div class="grid-container" id="board">
+							
+						 </div>
+					 </div>
+				</div>				        							
+			    <div class="span4">
+					          <div style="position:relative;margin-top:5%;padding-top:3%;border-radius:10px;background:#801FA4;color:white;height:220px;">
+								  <p class="text-center" style="font-size:15px;">CURRENT NUMBER</p><hr>
+								  <div id="number" style="padding-top:13%;font-size:100px;">00</div>
+					          </div>
+					          <div style="text-align:left;margin-top:5%;border-radius:10px;position:relative;background:#801FA4;padding-top:20px;padding-left:10px;height:350px;font-size:16px;color:white;">
+					          <p class="text-center" style="font-size:20px;">WINNERS</p><hr>
+					          <table cellpadding="10px" style="padding-left:30px;font-weight:20px;font-size:30px;font-family:calibre;">								  
+								  <tr>
+									  <td>Early Five</td><td>:</td><td><span id="fjaldi"> -- </span></td>
+								  </tr>
+								  <tr></tr><tr></tr>
+								  <tr>
+									  <td>Top Row</td><td>:</td><td><span id="fline"> -- </span></td>
+								  </tr>
+								  <tr></tr><tr></tr>
+								  <tr>
+									   <td>Middle Row</td><td>:</td><td><span id="sline"> -- </span></td>
+								  </tr>
+								  <tr></tr><tr></tr>
+								  <tr>									  
+										<td>Bottom Row</td><td>:</td><td><span id="tline"> -- </span></td>
+								  </tr>
+								  <tr></tr><tr></tr>
+								  <tr>									 
+										<td>Full Housie</td><td>:</td><td><span id="finish"> -- </span></td>
+								  </tr>
+					          </table>
+					          </div>
+					          <div id="audio" style="visibility:hidden;"></div>
+			    </div>
+		    </div>
+	    </div>
+	</div>	
+	<div class="footer">
+	<p class="text-center" style="position:relative;padding-top:4px;color:white;">&copy;titanisu</p>
+	</div>
+</div>	
+</body>
+    <script src="assets/javascripts/bootstrap-dropdown.js"></script>
+        <script src="assets/javascripts/bootstrap.js"></script>
+        <script src="assets/javascripts/jquery.js"></script>
+
+        
+<script type="text/javascript" src="@routes.Assets.at("javascripts/housie_board.js")" ></script>
+<script type="text/javascript" src="@routes.Assets.at("javascripts/bootstrap-modal.js")" ></script>
+<script type="text/javascript" src="@routes.Assets.at("javascripts/bootstrap-transition.js")" ></script>
+<script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.js")" ></script>	
+</html>

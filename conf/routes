@@ -1,0 +1,47 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.SignUp.login()
+
+GET     /index                      controllers.Application.index()
+GET     /home                       controllers.Application.game_index()
+GET     /gamestream                 controllers.Application.stream()
+GET     /central                    controllers.Application.central()
+GET	    /game			            controllers.Application.game()
+GET	    /admin			            controllers.Application.admin()
+GET		/instant/:id				controllers.Application.instant(id : String)
+GET		/instantgame/:id 			controllers.Application.instantgame(id : Long)
+GET		/instticket/:id				controllers.Application.instantticket(id: Long)
+
+
+# Signup
+GET     /signup                     controllers.SignUp.blank()
+POST    /signup                     controllers.SignUp.submit()
+GET 	/update			    controllers.SignUp.edit()
+POST	/update/:id		    controllers.SignUp.update(id:Long)
+
+
+#shwoing users
+GET	/users/delete/:id	    controllers.SignUp.deleteUser(id : Long)
+GET	/shows		            controllers.SignUp.users()
+	
+#login
+
+POST    /login                       controllers.SignUp.authenticate()
+GET	    /usershows		     controllers.SignUp.userlist()
+GET     /logout/                  controllers.SignUp.logout()
+GET	    /admin_logout		     controllers.SignUp.admin_logout()
+
+GET	/housie			      controllers.Application.housie_game()
+GET	/ticket			     controllers.Application.ticket()
+GET	/housiecentral		     controllers.Application.housiecentral()
+GET	/housiestream		     controllers.Application.housiestream()
+
+GET 	/zero			     controllers.Application.makezero()	
+GET	    /quit				    controllers.Application.quitgame()	
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /:id                           controllers.Application.unknown(id:String)
+

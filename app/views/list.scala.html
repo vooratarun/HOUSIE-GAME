@@ -1,0 +1,24 @@
+@(page:String,isLoggedIn: Boolean, userInfo: User = null)
+
+@if(page == "User List"){
+@Main(page,isLoggedIn,userInfo){
+
+
+
+&emsp;&emsp;&emsp;&emsp;
+<a class="btn btn-inverse" href="@routes.Application.game_index()"><img   src="@routes.Assets.at("stylesheets/ShooterLogo.png")"></img>Shoot</a></button><br><br>
+<a   class="btn btn-inverse" href="@routes.Application.ticket()"><img   src="@routes.Assets.at("stylesheets/HousieLogo.png")"></img>Ticket</a></button>
+
+
+
+ }
+}
+@if(page == "InstantList") {
+@Main(page,isLoggedIn,userInfo){
+<table cellpadding="10px"><tr><td><a class="btn btn-primary" href="@routes.Application.instantgame(userInfo.getpresentid())">
+<img  src="@routes.Assets.at("stylesheets/ShooterLogo.png")"></img>Shoot</a></td></tr>
+<tr><td><a class="btn btn-primary" href="@routes.Application.instantticket(userInfo.getpresentid())"><img src="@routes.Assets.at("stylesheets/HousieLogo.png")"></img> Ticket</a></td></tr></table>
+
+
+}
+}

@@ -1,0 +1,56 @@
+@(signupForm: Form[User])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@title = {
+    Sign Up 
+}
+
+@Main("Sign Up",false,null) {
+    
+    @helper.form(action = routes.SignUp.submit) {
+        
+         <div class="well" style="max-width: 400px; margin: 0 auto 10px;">
+                 <h4 class="text-center">@title<hr/></h4>
+            
+            @inputText(
+                signupForm("username"), 
+                '_label -> "Username", 
+                '_help -> "Please choose a valid username.",
+                '_error -> signupForm.globalError
+            )
+            
+            @inputText(
+                signupForm("email"), 
+                '_label -> "Email",
+                '_help -> "Enter a valid email address."
+            )
+            
+            @inputPassword(
+                signupForm("password"), 
+                '_label -> "Password",
+                '_help -> "A password must be at least 6 characters. "
+            )
+            
+            @inputPassword(
+                signupForm("repeatPassword"), 
+                '_label -> "Repeat password",
+                '_help -> "Please repeat your password again.",
+                '_error -> signupForm.error("password")
+            )     
+            @checkbox(
+                signupForm("accept"), 
+                '_label -> None, '_text -> "You agree the Terms and conditions",
+                '_showConstraints -> true
+            )                   
+        
+	        <div class="text-center">
+	            <input type="submit" class="btn btn-primary" value="Sign Up">&emsp;&emsp;&emsp;&emsp;
+	            <a href="@routes.SignUp.blank()" class="btn btn-warning">Reset</a>
+	        </div>
+        </div>
+        
+    }
+    
+}

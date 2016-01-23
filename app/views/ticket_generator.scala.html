@@ -1,0 +1,54 @@
+@(userid : Long)
+<html>
+<head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.css")">
+	    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap-responsive.css")">
+        <script src="@routes.Assets.at("javascripts/bootstrap-dropdown.js")" type="text/javascript"></script>
+	    <script src="@routes.Assets.at("javascripts/show_ticket.js")" type="text/javascript"></script>
+	    <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")"></script>
+</head>
+<body>
+<br>
+<p class="text-right"><b>Player Id : <strong>@userid</strong></b></p>
+<center><button title="haiiis" onClick="random_positions();" style="margin-top:5%;" id="btn">Generate Ticket</button></center>
+<table width="99%" height="50%">
+<tr>
+<td id="demo1" style="width:40%;height:30%;"></td>
+</tr>
+<tr><td><br></td></tr>
+<tr>
+<td align="center">
+<div id="number" style="width:device-width;color:white;background:#F67C5F;" class="alert alert-error">Welcome To The World Of Tambola</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+<div id="message" style="width:device-width;" class="alert alert-error">Game Messages</div>
+</td>
+</tr>
+</table>
+
+</body>
+<script>
+var confirmOnPageExit = function(e)
+{
+	e = e || window.event;
+	var message = "WARNING !!! if you reload, you loss the ticket";
+	if(e)
+	{
+		e.returnValue = message;
+	}
+}
+window.onbeforeunload = confirmOnPageExit;
+$(document).keydown( function(e) 
+{
+		if((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 17 || (e.which || e.keyCode) == 82 || (e.which || e.keyCode) == 76)
+			e.preventDefault();
+});
+
+var playerid = @userid;
+</script>
+
+	 <script type="text/javascript" src="@routes.Assets.at("javascripts/ticket_generator.js")"></script>
+</html> 

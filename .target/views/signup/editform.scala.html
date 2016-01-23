@@ -1,0 +1,54 @@
+@(Id: Long , signupForm: Form[User], userInfo: User)
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@title = {
+    Edit Form
+}
+
+@Main("Edit Form", true, userInfo) {
+    @helper.form(action = routes.SignUp.update(Id)) {
+       <center> 
+        <fieldset>
+            <legend>EditForm Account</legend> 
+            
+            @inputText(
+                signupForm("username"), 
+                '_label -> "Username", 
+                '_help -> "Please choose a valid username.",
+                '_error -> signupForm.globalError
+            )
+            
+            @inputText(
+                signupForm("email"), 
+                '_label -> "Email",
+                '_help -> "Enter a valid email address."
+            )
+            
+            @inputPassword(
+                signupForm("password"), 
+                '_label -> "Password",
+                '_help -> "A password must be at least 6 characters. "
+            )
+            
+            @inputPassword(
+                signupForm("password"), 
+                '_label -> "Repeat password",
+                '_help -> "Please repeat your password again.",
+                '_error -> signupForm.error("password")
+            )
+            
+        </fieldset>
+         
+        <div class="actions">
+            <input type="submit" class="btn primary" value="Sign Up">
+            <a href="@routes.Application.index" class="btn">Cancel</a>
+        </div>
+
+	</center>
+     }   
+    
+ }   
+</body>
+</html>

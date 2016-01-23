@@ -1,0 +1,189 @@
+@(users: List[User] , loginusers: HashMap[Long,String] , scores:List[Integer], isLoggedIn: Boolean, userInfo: User, tickets : Array[Int] ) 
+@import helper._
+@import java.math.BigInteger; var i=1; var k=1;
+<html>
+<head>
+<title> Users </title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap-responsive.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <script src="@routes.Assets.at("javascripts/jquery.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/bootstrap.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/bootstrap-dropdown.js")" type="text/javascript"></script>
+	<script>
+	 p1 = 0; p2 = 0; p3 = 0; p4 = 0;
+	   var socket = new WebSocket("ws://"+location.host+"/admin");
+	   var connected = false;
+	   socket.onopen = function() { connected = true;}	
+	   socket.onclose = function() { connected = false; }
+   	socket.onmessage = function(e)
+	{
+			m = JSON.parse(e.data);
+			if(m.type == "userdetails")
+				$("div#messages").append("<br> "+ m.id+ "  " + m.username +"</p>");
+			
+	}
+	function send(p)
+	{
+		if(connected)
+			socket.send(JSON.stringify(p));
+	}
+			$(document).ready(function(){
+				$("div#list").hide();	
+				$("div#scoreslist").hide();	
+				
+				$("div#available_tickets").hide();	
+				$("#current_users").click( function(){ 
+					$("div#current_login_users").toggle();
+					});
+				$("#current_tickets").click( function(){ 
+					$("div#available_tickets").toggle();
+					});
+				$("#showlist").click( function(){ 
+					$("div#list").toggle();
+					});
+				$("#scorelistbutton").click( function(){ 
+					$("div#scoreslist").toggle();
+
+					});
+			});	
+			function bulletsend()
+			{
+				p1 = parseInt($("input#p1").val()) || 0;
+				p2 = parseInt($("input#p2").val()) || 0;
+				p3 = parseInt($("input#p3").val()) || 0;
+				p4 = parseInt($("input#p4").val()) || 0;
+				send({"type":"bullets", "p1":p1 , "p2":p2 , "p3":p3 , "p4" :p4 });
+
+				alert( "ASSIGNED" );
+			  
+			}
+	</script>	
+</head>
+<body>
+
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+     <div class="navbar-inner">
+         <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="@routes.Application.index()">Titanisu</a>
+          <div class="nav-collapse collapse">
+           <ul class="nav">
+              <li><a id="current_users" style="cursor:pointer;"> Current Users</a></li>
+              <li><a id="current_tickets" style="cursor:pointer;"> Available Tickets</a></li>
+              <li><a id="showlist" style="cursor:pointer;"> SHOW ALL Users</a></li>
+              <li><a id="scorelistbutton" style="cursor:pointer;">Show Scores</a></li>             
+	      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Login as Moderator<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="#">Action</a></li>                         
+                          <li class="divider"></li>
+                          <li class="nav-header">LogOut</li>                          
+                        </ul>
+                      </li>                                            
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>         
+<div class='container' style="background-color:;margin-top:4%">
+<div id="current_login_users">
+<h5 align="center"> Logged Users</h5>
+<center>
+<div id="messages" >
+
+</div>
+</center>
+<table class="table-stripped container" style="width:50%" >
+@for( loginuser <- loginusers){
+	
+	<tr>
+	<td>Email </td>
+	<td>@loginuser</td>
+	</tr>
+}
+</table>
+</div>
+<br>
+<table border =0 align="center" >
+<tr><td colspan=2 align="center"><h5>Bullets</h5></tr>
+<tr><td>Player-1 &nbsp; &nbsp; &nbsp; </td> <td><input style="height:30px;width:100px;" type="text" id="p1" ></td><tr>
+<tr><td>Player-2 &nbsp; &nbsp; &nbsp; </td> <td><input  style="height:30px;width:100px;" type="text" id="p2" ></td><tr>
+<tr><td>Player-3 &nbsp; &nbsp;  &nbsp;</td> <td><input style="height:30px;width:100px;"  type="text" id="p3" ></td><tr>
+<tr><td>Player-4  &nbsp; &nbsp; &nbsp;</td> <td><input style="height:30px;width:100px;"  type="text" id="p4" ></td><tr>
+
+<tr><td colspan=2 align="center"><input type="button"  class="btn btn-small btn-inverse" value="AssignBullets" onClick="bulletsend()"></td></tr>
+
+</table>
+<div  id="scoreslist" >
+<h3> Scores </h3>
+<table class="table-stripped container" style="width:50%" >
+@{i = 1};
+@for( score <- scores){
+	
+	<tr>
+	<td>Player - @i </td>
+	<td>@score</td>	
+	</tr>
+ @{i=i+1;}
+	
+}
+</table>
+</div>
+<div id="available_tickets">
+<h3> Tickets </h3>
+
+<table class="table-stripped container" style="width:50%" >
+@{i = 1}
+@for( ticket <- tickets){
+	@if(ticket!=0){
+	<tr>
+	<td>ticket - @i </td>
+	<td>@ticket</td>	
+	</tr>
+	}
+ @{i=i+1;}
+	
+}
+</table>
+</div>
+
+<hr>
+<table cellpadding=10>
+<tr>
+<td>
+<a  target="_blank" class="btn btn-primary" href="@routes.Application.game()">
+<img  height="300" width="300" src="@routes.Assets.at("stylesheets/game_view.png")"></img>&nbsp;Shooting Game</a>
+</td>
+<td>
+<a  target="_blank" class="btn btn-primary" href="@routes.Application.housie_game()">
+<img  height="300" width="300" src="@routes.Assets.at("stylesheets/housie_board.png")"></img>&nbsp;Housie Game</a>
+</td>
+</tr>
+</table>
+<div  id="list" class ="list container"  >
+	    <h3> Total @users.size() user(s)</h3>	    
+<table class="table table-bordered table-hover">
+<tr class="success"><td>User Id</td><td>User Name</td><td>Email</td><td>Password</td><td>Edit</td><td>Delete</td></tr>
+		@for(user <- users) {		   		    			    	
+		    <tr>
+		       <td>@user.id</td>
+		       <td>@user.username</td>
+		       <td>@user.email</td>
+		       <td>@user.password</td>
+		       <td><a href=@routes.SignUp.edit()> Edit </a></td>		    	
+    	    	       <td><a href=@routes.SignUp.deleteUser(user.id)> Delete </a></td>		       
+		    </tr>		     
+		}
+	    </table>
+  </div>    
+  </div>  
+</body>
+

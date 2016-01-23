@@ -1,0 +1,63 @@
+@(page: String,form: Form[SignUp.Login],isLoggedIn: Boolean, userInfo: User)
+
+@import java.lang.String; var name="mine";
+@Main(page,isLoggedIn,userInfo) {
+		<span class="btn btn-inverse btn-large disabled" style="position:relative;left:14%;">TITANISU</span><br><br>
+		<button class="btn btn-medium btn-warning" style="position:relative;left:14%;"onclick="closeit()">Instant Login</button> <br><br>
+        @helper.form(routes.SignUp.authenticate) {
+           		
+		<table border=0 id="form">	
+           <tr><td colspan=2  align="center"> <h5>SIGN IN</h5></td></tr>
+           	
+                
+            <tr>
+               <td></td> <td><input style="height:30px;width:80%" type="text"  name="username" placeholder="User Name" ></td></tr>
+          
+               <tr><td></td> <td><input  style="height:30px;width:80%"  name="password"  type="password" placeholder="Password"></td></tr>
+           
+         <tr><td colspan=2 align="center">       <button class="btn btn-primary" type="submit">Login</button></td></tr>           
+         </table>
+		
+		 
+        }
+			
+             <a id="signup" style="position:relative;left:22%;" href="@routes.SignUp.blank()"><button class="btn btn-primary btn-info" >SignUp</button></a>
+        
+		
+		 <div id="instant">
+		  <input type="text" id="name"  style="width:140px;" placeholder="User Name"/>
+		  <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button  class="btn" onclick="send()" >Enter</button>
+		  </div>
+		  		
+
+		 <script>	
+		 
+		 $(document).ready(function(){
+			$("div#instant").hide();
+			
+
+		 
+		 });
+		 function closeit()
+		 {
+			
+			$("table#form").hide();
+			$("a#signup").hide();
+			$("div#instant").show();
+		 
+		 }
+		
+		 function send()
+					{
+							
+						var val =  $("#name").val();
+						
+						window.location.href= window.location.href+"instant/"+val;
+					}
+					</script>
+
+}               
+        
+        
+    </body>
+</html>

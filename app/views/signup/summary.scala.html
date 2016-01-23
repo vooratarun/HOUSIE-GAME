@@ -1,0 +1,29 @@
+@(user: User)
+@Main("Summary",false,null) {
+    <center>
+	    <h2>Your account:</h2>
+	    
+	    <h6>Username</h6>
+	    
+	    <p>
+		@user.id
+	    </p>
+	    <p>
+		@user.username
+	    </p>
+	    
+	    <h6>Email</h6>
+	    
+	    <p>
+		@user.email
+	    </p>
+	    
+	    <h6>Password</h6>
+	    
+	    <p>
+		@user.password
+	    </p>
+	    
+	   <a href="@routes.SignUp.login()">Login </a>
+   </center>
+}
